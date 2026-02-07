@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profit (ROI & CAGR) | TradingBrains</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="main-header">
+        <div class="container">
+            <button class="hamburger" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <a href="index.html" class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#10b981" viewBox="0 0 256 256">
+                    <path
+                        d="M244,56v64a4,4,0,0,1-8,0V65.66l-77.17,77.17a4,4,0,0,1-5.66,0L108,97.66,34.83,170.83a4,4,0,0,1-5.66-5.66l76-76a4,4,0,0,1,5.66,0L156,134.34,228.34,62H180a4,4,0,0,1,0-8h60A4,4,0,0,1,244,56Z">
+                    </path>
+                </svg>
+                Trading<span>Brains</span>
+            </a>
+
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <li><a href="index.html">Stock Avg</a></li>
+                    <li><a href="invest.html">Invest</a></li>
+                    <li><a href="profit.html" class="active">Profit</a></li>
+                    <li><a href="emi.html">EMI</a></li>
+                    <li><a href="percentage.html">Percentage</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="mobile-menu-overlay"></div>
+    <div class="mobile-menu">
+        <button class="close-menu" aria-label="Close">&times;</button>
+        <div class="mobile-nav-links">
+            <a href="index.html"><i class="ph ph-trend-up"></i> Stock Average</a>
+            <a href="invest.html"><i class="ph ph-plant"></i> Invest (SIP/Lump/SWP)</a>
+            <a href="profit.html" class="active"><i class="ph ph-chart-line-up"></i> Profit (ROI/CAGR)</a>
+            <a href="emi.html"><i class="ph ph-bank"></i> EMI Calculator</a>
+            <a href="percentage.html"><i class="ph ph-percent"></i> Percentage</a>
+        </div>
+    </div>
+
+    <main class="container">
+        <div class="page-title">
+            <h1>Profit Calculator</h1>
+            <p>Analyze your returns: ROI & CAGR.</p>
+        </div>
+
+        <div class="calculator-card">
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="roi_adv">ROI (Adv)</button>
+                <button class="tab-btn" data-tab="cagr">CAGR</button>
+            </div>
+
+            <!-- ROI Advanced Content -->
+            <div id="tab-roi_adv" class="tab-content active">
+                <div class="input-group">
+                    <label class="input-label">Invested Amount (₹)</label>
+                    <input type="number" id="roi-adv-invested" placeholder="10000">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Current / Sold Value (₹)</label>
+                    <input type="number" id="roi-adv-current" placeholder="12000">
+                </div>
+                <!-- Brokerage/Tax Section -->
+                <div class="input-group">
+                    <label class="input-label" style="font-size: 0.9rem; color: var(--text-muted);">Brokerage / Taxes
+                        (Optional)</label>
+                    <div class="two-col" style="gap: 10px;">
+                        <input type="number" id="roi-adv-tax-perc" placeholder="% (e.g. 0.1)" style="flex:1;">
+                        <input type="number" id="roi-adv-tax-flat" placeholder="Flat ₹ (e.g. 20)" style="flex:1;">
+                    </div>
+                </div>
+
+                <div class="result-box" id="result-box-roi-adv"></div>
+            </div>
+
+            <!-- CAGR Content -->
+            <div id="tab-cagr" class="tab-content">
+                <div class="input-group">
+                    <label class="input-label">Initial Investment (₹)</label>
+                    <input type="number" id="cagr-initial" placeholder="100000">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Final Value (₹)</label>
+                    <input type="number" id="cagr-final" placeholder="200000">
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Duration (Years)</label>
+                    <input type="number" id="cagr-years" placeholder="3">
+                </div>
+                <div class="result-box" id="result-box-cagr"></div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        For <strong>Trading Brains Group</strong> by KK
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
