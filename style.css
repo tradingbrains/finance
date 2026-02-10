@@ -85,21 +85,6 @@ body {
     color: var(--primary);
 }
 
-.live-clock {
-    font-family: 'Courier New', Courier, monospace;
-    /* Monospace for stable numbers */
-    font-weight: 600;
-    color: var(--primary);
-    font-size: 1rem;
-    letter-spacing: 1px;
-    background: rgba(16, 185, 129, 0.1);
-    padding: 6px 12px;
-    border-radius: 8px;
-    border: 1px solid rgba(16, 185, 129, 0.2);
-    /* Ensure it doesn't shrink */
-    white-space: nowrap;
-}
-
 /* Navigation */
 .main-nav {
     display: none;
@@ -480,43 +465,13 @@ input[type="number"]::placeholder {
 
 @media (max-width: 400px) {
 
-    /* Improve Header Layout to prevent overflow */
-    .container {
-        padding: 0 10px;
-        /* Reduce padding */
-        gap: 5px;
-        /* Reduce gap between elements */
-    }
-
-    /* Hide text, show only icon for logo if needed, or just shrink font */
+    /* Hide the "Brains" text on very small screens to fit the clock */
     .logo span {
         display: none;
     }
 
     .logo {
-        font-size: 1.1rem;
-        flex: 1;
-        /* Allow logo to take available space but shrink if needed */
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .live-clock {
-        font-size: 0.8rem;
-        /* Smaller font */
-        padding: 4px 6px;
-        /* Smaller padding */
-        letter-spacing: 0;
-        border: none;
-        /* Remove border to save space */
-        background: transparent;
-        /* Cleaner look */
-    }
-
-    .hamburger {
-        padding: 5px;
-        /* Smaller touch target visual, keep generous logic if possible */
+        font-size: 1.2rem;
     }
 }
 

@@ -18,27 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
         overlay.addEventListener('click', toggleMenu);
     }
 
-    // --- Global: Live Clock ---
-    function updateClock() {
-        const clockEl = document.getElementById('live-clock');
-        if (clockEl) {
-            const now = new Date();
-            // Format: HH:MM:SS AM/PM or just HH:MM:SS
-            // Using toLocaleTimeString for easier localization and format
-            // Options: hour12 set to true for 12-hour format, or false for 24-hour
-            const timeString = now.toLocaleTimeString('en-US', {
-                hour12: true,
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
-            clockEl.textContent = timeString;
-        }
-    }
-    // Update immediately and then every second
-    updateClock();
-    setInterval(updateClock, 1000);
-
     // --- Utilities ---
     const formatCurrency = (amount) => {
         return new Intl.NumberFormat('en-IN', {
