@@ -18,6 +18,27 @@ document.addEventListener('DOMContentLoaded', () => {
         overlay.addEventListener('click', toggleMenu);
     }
 
+    // --- Global: Live Clock ---
+    function updateClock() {
+        const clockEl = document.getElementById('live-clock');
+        if (clockEl) {
+            const now = new Date();
+            // Format: HH:MM:SS AM/PM or just HH:MM:SS
+            // Using toLocaleTimeString for easier localization and format
+            // Options: hour12 set to true for 12-hour format, or false for 24-hour
+            const timeString = now.toLocaleTimeString('en-US', {
+                hour12: true,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            clockEl.textContent = timeString;
+        }
+    }
+    // Update immediately and then every second
+    updateClock();
+    setInterval(updateClock, 1000);
+
     // --- Utilities ---
     const formatCurrency = (amount) => {
         return new Intl.NumberFormat('en-IN', {
@@ -592,6 +613,120 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (document.getElementById('risk-capital')) {
         // Risk Listeners Removed
+    }
+
+    // --- 7. Pivot Calculator Logic (pivot.html) ---
+    const pivotInputs = ['pivot-high', 'pivot-low', 'pivot-close', 'pivot-open'];
+    const pivotRadios = document.getElementsByName('pivot-type');
+
+    function calculatePivot() {
+        const h = parseFloat(document.getElementById('pivot-high').value) || 0;
+        const l = parseFloat(document.getElementById('pivot-low').value) || 0;
+        const c = parseFloat(document.getElementById('pivot-close').value) || 0;
+        const o = parseFloat(document.getElementById('pivot-open').value) || 0;
+
+        if (!h || !l || !c) {
+            const box = document.getElementById('result-box-pivot');
+            if (box) box.classList.remove('show');
+            return; // Need at least H, L, C
+        }
+
+        // Get select type
+        let type = 'classic';
+        for (const radio of pivotRadios) {
+            if (radio.checked) {
+                type = radio.value;
+                break;
+            }
+        }
+
+        let pp, r1, r2, r3, r4, s1, s2, s3, s4;
+        const range = h - l;
+
+        switch (type) {
+            case 'woodie':
+                pp = (h + l + 2 * c) / 4;
+                r1 = (2 * pp) - l;
+                r2 = pp + range;
+                s1 = (2 * pp) - h;
+                s2 = pp - range;
+                break;
+
+            case 'camarilla':
+                pp = (h + l + c) / 3;
+                r4 = c + (range * 1.1 / 2);
+                r3 = c + (range * 1.1 / 4);
+                r2 = c + (range * 1.1 / 6);
+                r1 = c + (range * 1.1 / 12);
+                s1 = c - (range * 1.1 / 12);
+                s2 = c - (range * 1.1 / 6);
+                s3 = c - (range * 1.1 / 4);
+                s4 = c - (range * 1.1 / 2);
+                break;
+
+            case 'fibonacci':
+                pp = (h + l + c) / 3;
+                r1 = pp + (0.382 * range);
+                r2 = pp + (0.618 * range);
+                r3 = pp + (1.000 * range);
+                s1 = pp - (0.382 * range);
+                s2 = pp - (0.618 * range);
+                s3 = pp - (1.000 * range);
+                break;
+
+            case 'classic':
+            default:
+                pp = (h + l + c) / 3;
+                r1 = (2 * pp) - l;
+                s1 = (2 * pp) - h;
+                r2 = pp + (h - l);
+                s2 = pp - (h - l);
+                r3 = h + 2 * (pp - l);
+                s3 = l - 2 * (h - pp);
+                break;
+        }
+
+        // Build Table HTML
+        let html = '<table class="pivot-table"><tbody>';
+
+        // Rows Helper
+        const row = (label, val, cls = '') => {
+            if (val === undefined || isNaN(val)) return '';
+            return `<tr class="${cls}"><td>${label}</td><td>${formatCurrency(val)}</td></tr>`;
+        };
+
+        if (type === 'camarilla') {
+            html += row('Resistance 4', r4, 'res-row');
+            html += row('Resistance 3', r3, 'res-row');
+            html += row('Resistance 2', r2, 'res-row');
+            html += row('Resistance 1', r1, 'res-row');
+            html += row('Pivot Point', pp, 'pp-row');
+            html += row('Support 1', s1, 'sup-row');
+            html += row('Support 2', s2, 'sup-row');
+            html += row('Support 3', s3, 'sup-row');
+            html += row('Support 4', s4, 'sup-row');
+        } else {
+            if (r3) html += row('Resistance 3', r3, 'res-row');
+            if (r2) html += row('Resistance 2', r2, 'res-row');
+            if (r1) html += row('Resistance 1', r1, 'res-row');
+            html += row('Pivot Point', pp, 'pp-row');
+            if (s1) html += row('Support 1', s1, 'sup-row');
+            if (s2) html += row('Support 2', s2, 'sup-row');
+            if (s3) html += row('Support 3', s3, 'sup-row');
+        }
+
+        html += '</tbody></table>';
+        displayResultHTML('result-box-pivot', html);
+    }
+
+    if (document.getElementById('pivot-high')) {
+        pivotInputs.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('input', calculatePivot);
+        });
+        pivotRadios.forEach(radio => {
+            radio.addEventListener('change', calculatePivot);
+        });
     }
 
 });

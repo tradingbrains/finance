@@ -85,6 +85,21 @@ body {
     color: var(--primary);
 }
 
+.live-clock {
+    font-family: 'Courier New', Courier, monospace;
+    /* Monospace for stable numbers */
+    font-weight: 600;
+    color: var(--primary);
+    font-size: 1rem;
+    letter-spacing: 1px;
+    background: rgba(16, 185, 129, 0.1);
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    /* Ensure it doesn't shrink */
+    white-space: nowrap;
+}
+
 /* Navigation */
 .main-nav {
     display: none;
@@ -458,16 +473,25 @@ input[type="number"]::placeholder {
 
 /* Responsive */
 @media (max-width: 600px) {
-    .container {
-        width: 92%;
-    }
-
-    .calculator-card {
-        padding: 25px;
-    }
-
     .page-title h1 {
         font-size: 2rem;
+    }
+}
+
+@media (max-width: 400px) {
+
+    /* Hide the "Brains" text on very small screens to fit the clock */
+    .logo span {
+        display: none;
+    }
+
+    .logo {
+        font-size: 1.2rem;
+    }
+
+    .live-clock {
+        font-size: 0.9rem;
+        padding: 4px 8px;
     }
 }
 
@@ -525,4 +549,91 @@ input[type="number"]::placeholder {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* Radio Group */
+.radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    background: var(--bg-input);
+    padding: 6px;
+    border-radius: 12px;
+}
+
+.radio-label {
+    flex: 1;
+    position: relative;
+    cursor: pointer;
+    min-width: 80px;
+    text-align: center;
+}
+
+.radio-label input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.radio-label span {
+    display: block;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.radio-label input:checked~span {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--primary);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    font-weight: 600;
+}
+
+.radio-label:hover span {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+/* Pivot Table Styles */
+.pivot-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.pivot-table th,
+.pivot-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.9rem;
+}
+
+.pivot-table th {
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.pivot-table td {
+    color: var(--text-main);
+    font-weight: 600;
+}
+
+.pivot-table .res-row td {
+    color: #ef4444;
+    /* Red for Resistance */
+}
+
+.pivot-table .sup-row td {
+    color: var(--primary);
+    /* Green for Support */
+}
+
+.pivot-table .pp-row td {
+    color: var(--accent);
+    /* Blue for Pivot */
+    font-weight: 700;
+    background: rgba(59, 130, 246, 0.05);
 }
