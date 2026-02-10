@@ -480,18 +480,43 @@ input[type="number"]::placeholder {
 
 @media (max-width: 400px) {
 
-    /* Hide the "Brains" text on very small screens to fit the clock */
+    /* Improve Header Layout to prevent overflow */
+    .container {
+        padding: 0 10px;
+        /* Reduce padding */
+        gap: 5px;
+        /* Reduce gap between elements */
+    }
+
+    /* Hide text, show only icon for logo if needed, or just shrink font */
     .logo span {
         display: none;
     }
 
     .logo {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
+        flex: 1;
+        /* Allow logo to take available space but shrink if needed */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .live-clock {
-        font-size: 0.9rem;
-        padding: 4px 8px;
+        font-size: 0.8rem;
+        /* Smaller font */
+        padding: 4px 6px;
+        /* Smaller padding */
+        letter-spacing: 0;
+        border: none;
+        /* Remove border to save space */
+        background: transparent;
+        /* Cleaner look */
+    }
+
+    .hamburger {
+        padding: 5px;
+        /* Smaller touch target visual, keep generous logic if possible */
     }
 }
 
