@@ -708,4 +708,223 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- 8. Target Average Logic (index.html tab) ---
+    const targetIds = ['target-qty', 'target-avg', 'target-new-price', 'target-desired'];
+
+    function calculateTargetAverage() {
+        const qty = parseFloat(document.getElementById('target-qty').value) || 0;
+        const currentAvg = parseFloat(document.getElementById('target-avg').value) || 0;
+        const newPrice = parseFloat(document.getElementById('target-new-price').value) || 0;
+        const desiredAvg = parseFloat(document.getElementById('target-desired').value) || 0;
+
+        const box = document.getElementById('result-box-target');
+        if (!box) return;
+
+        if (!qty || !currentAvg || !newPrice || !desiredAvg) {
+            box.classList.remove('show');
+            box.innerHTML = '';
+            return;
+        }
+
+        // Formula Validity Check
+        let possible = false;
+        if (currentAvg > newPrice && desiredAvg < currentAvg && desiredAvg > newPrice) possible = true; // Averaging Down
+        if (currentAvg < newPrice && desiredAvg > currentAvg && desiredAvg < newPrice) possible = true; // Averaging Up
+
+        if (!possible) {
+            const msg = (desiredAvg <= newPrice && currentAvg > newPrice) ? "Desired average must be higher than New Price." :
+                (desiredAvg >= newPrice && currentAvg < newPrice) ? "Desired average must be lower than New Price." :
+                    "Impossible to achieve this average with the current new price.";
+
+            displayResultHTML('result-box-target', `<div style="color:var(--text-muted); text-align:center;">${msg}</div>`);
+            return;
+        }
+
+        // Formula: Q2 = Q1 * (P1 - Target) / (Target - P2)
+        let requiredQty = qty * (currentAvg - desiredAvg) / (desiredAvg - newPrice);
+        requiredQty = Math.abs(requiredQty);
+
+        // Round up to nearest integer for shares
+        const finalQty = Math.ceil(requiredQty);
+        const totalInvestment = finalQty * newPrice;
+
+        displayResultHTML('result-box-target', `
+            <div class="result-row">
+                <span>Buy Quantity</span>
+                <strong style="color:var(--primary);">${finalQty} Shares</strong>
+            </div>
+            <div class="result-row">
+                <span>Investment Needed</span>
+                <strong>${formatCurrency(totalInvestment)}</strong>
+            </div>
+            <div class="result-row" style="font-size:0.8rem; justify-content:center; color: var(--text-muted); margin-top:5px;">
+                (Approximate to nearest share)
+            </div>
+        `);
+    }
+
+    if (document.getElementById('target-qty')) {
+        targetIds.forEach(id => {
+            document.getElementById(id).addEventListener('input', calculateTargetAverage);
+        });
+    }
+
+
+
+    // --- 9. News System (Fresh Start v13) ---
+    // --- 9. News System (Fresh Start v16 - Fast Load) ---
+    const initNewsSystem = async () => {
+        const tickerContainer = document.getElementById('ticker-content');
+        const newsPageContainer = document.getElementById('news-feed-container');
+
+        if (!tickerContainer && !newsPageContainer) return;
+
+        // Verified Fresh Feeds
+        const feeds = [
+            { url: 'https://www.business-standard.com/rss/markets-106.rss', source: 'Business Standard' },
+            { url: 'https://feeds.feedburner.com/ndtvprofit-latest', source: 'NDTV Profit' },
+            { url: 'https://economictimes.indiatimes.com/markets/rssfeeds/1977021501.cms', source: 'Economic Times' },
+            { url: 'https://www.cnbc.com/id/10000664/device/rss/rss.html', source: 'CNBC World' }
+        ];
+
+        const renderNews = (newsItems) => {
+            if (!newsItems || newsItems.length === 0) return;
+
+            // 1. Render Ticker
+            if (tickerContainer) {
+                let html = newsItems.map(n =>
+                    `<span class="ticker-item"><a href="${n.link}" target="_blank">${n.title}</a></span>`
+                ).join('');
+                // Duplicate for smooth loop
+                tickerContainer.innerHTML = html + html;
+            }
+
+            // 2. Render News Page
+            if (newsPageContainer) {
+                newsPageContainer.innerHTML = newsItems.map(n => {
+                    const d = new Date(n.pubDate);
+                    let timeStr = "Just now";
+                    if (!isNaN(d)) {
+                        const diffMins = Math.floor((Date.now() - d) / 60000);
+                        if (diffMins < 60) timeStr = `${diffMins}m ago`;
+                        else timeStr = `${Math.floor(diffMins / 60)}h ${diffMins % 60}m ago`;
+                    }
+
+                    return `
+                     <a href="${n.link}" target="_blank" class="news-card">
+                        <div class="news-card-title">${n.title}</div>
+                        <div class="news-card-summary">${n.description.substring(0, 140)}...</div>
+                        <div class="news-card-meta">
+                            <span>${timeStr}</span>
+                            <span>—</span>
+                            <span class="news-source-tag">${n.source}</span>
+                        </div>
+                     </a>`;
+                }).join('');
+            }
+        };
+
+        const fetchRawFeed = async (feed) => {
+            try {
+                // Using api.codetabs.com (Known for high reliability)
+                const proxyUrl = `https://api.codetabs.com/v1/proxy/?quest=${encodeURIComponent(feed.url)}`;
+
+                const response = await fetch(proxyUrl);
+                if (!response.ok) return [];
+                const text = await response.text();
+
+                // Parse XML
+                const parser = new DOMParser();
+                const xml = parser.parseFromString(text, "text/xml");
+                const items = Array.from(xml.querySelectorAll("item"));
+
+                return items.map(item => {
+                    const title = item.querySelector("title")?.textContent || "";
+                    const link = item.querySelector("link")?.textContent || "#";
+                    // Try pubDate, if missing try dc:date
+                    let pubDateStr = item.querySelector("pubDate")?.textContent || item.querySelector("date")?.textContent || "";
+                    let desc = item.querySelector("description")?.textContent || "";
+                    const div = document.createElement("div");
+                    div.innerHTML = desc;
+                    desc = div.textContent || "";
+
+                    return {
+                        title: title,
+                        link: link,
+                        pubDate: pubDateStr,
+                        description: desc,
+                        source: feed.source
+                    };
+                });
+            } catch (err) {
+                console.warn(`Feed failed: ${feed.source}`, err);
+                return [];
+            }
+        };
+
+        const updateUI = async () => {
+            // 1. Try Cache First (Instant Load)
+            const cached = localStorage.getItem('marketNews_v1');
+            if (cached) {
+                try {
+                    const parsed = JSON.parse(cached);
+                    if (parsed && parsed.data && parsed.data.length > 0) {
+                        console.log("Loaded news from cache");
+                        renderNews(parsed.data);
+
+                        // Check if cache is fresh (< 5 mins)
+                        const cacheTime = parsed.timestamp || 0;
+                        if (Date.now() - cacheTime < 300000) {
+                            return; // Skip fetch if cache is fresh
+                        }
+                    }
+                } catch (e) { }
+            }
+
+            if (tickerContainer && tickerContainer.innerHTML.includes('Loading')) {
+                // Keep loading state if no cache
+            }
+
+            console.log("Fetching fresh news...");
+            const results = await Promise.all(feeds.map(f => fetchRawFeed(f)));
+            let allNews = results.flat();
+
+            // Sort Newest First
+            allNews.sort((a, b) => {
+                const dA = new Date(a.pubDate);
+                const dB = new Date(b.pubDate);
+                return (isNaN(dB) ? 0 : dB) - (isNaN(dA) ? 0 : dA);
+            });
+
+            // Deduplicate
+            const seen = new Set();
+            allNews = allNews.filter(n => {
+                if (seen.has(n.title)) return false;
+                seen.add(n.title);
+                return true;
+            });
+
+            const topNews = allNews.slice(0, 25);
+
+            if (topNews.length > 0) {
+                // Update UI
+                renderNews(topNews);
+                // Save to Cache
+                localStorage.setItem('marketNews_v1', JSON.stringify({
+                    timestamp: Date.now(),
+                    data: topNews
+                }));
+            } else if (!cached && tickerContainer) {
+                tickerContainer.innerHTML = '<span class="ticker-item">News temporarily unavailable</span>';
+            }
+        };
+
+        // Initial Call
+        updateUI();
+        // Poll every 5 mins
+        setInterval(updateUI, 300000);
+    };
+
+    // Run News System
+    initNewsSystem();
 });

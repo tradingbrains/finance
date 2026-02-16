@@ -17,11 +17,7 @@
 
     <header class="main-header">
         <div class="container">
-            <button class="hamburger" aria-label="Menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+
 
             <a href="index.html" class="logo">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#10b981" viewBox="0 0 256 256">
@@ -32,9 +28,12 @@
                 Trading<span>Brains</span>
             </a>
 
+            <!-- Tools Link (Right Side) -->
+            <a href="index.html#tools-section" class="header-tools-link">Tools</a>
+
             <nav class="main-nav">
                 <ul class="nav-links">
-                    <li><a href="index.html">Stock Avg</a></li>
+                    <li><a href="average.html">Stock Avg</a></li>
                     <li><a href="pivot.html">Pivot</a></li>
                     <li><a href="invest.html" class="active">Invest</a></li>
                     <li><a href="profit.html">Profit</a></li>
@@ -45,18 +44,7 @@
         </div>
     </header>
 
-    <div class="mobile-menu-overlay"></div>
-    <div class="mobile-menu">
-        <button class="close-menu" aria-label="Close">&times;</button>
-        <div class="mobile-nav-links">
-            <a href="index.html"><i class="ph ph-trend-up"></i> Stock Average</a>
-            <a href="pivot.html"><i class="ph ph-crosshair"></i> Pivot Calculator</a>
-            <a href="invest.html" class="active"><i class="ph ph-plant"></i> Invest (SIP/Lump/SWP)</a>
-            <a href="profit.html"><i class="ph ph-chart-line-up"></i> Profit (ROI/CAGR)</a>
-            <a href="emi.html"><i class="ph ph-bank"></i> EMI Calculator</a>
-            <a href="percentage.html"><i class="ph ph-percent"></i> Percentage</a>
-        </div>
-    </div>
+
 
     <main class="container">
         <div class="page-title">
@@ -139,6 +127,15 @@
     <footer class="main-footer">
         For <strong>Trading Brains Group</strong> by KK
     </footer>
+
+    <div id="news-ticker-bar" class="news-ticker">
+        <div class="ticker-wrapper">
+            <div class="ticker-content" id="ticker-content">
+                <!-- News items will be populated here -->
+                <span class="ticker-item">Loading market news...</span>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

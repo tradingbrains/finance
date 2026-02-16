@@ -123,6 +123,24 @@ body {
     background: rgba(16, 185, 129, 0.1);
 }
 
+/* Header Tools Link */
+.header-tools-link {
+    text-decoration: none;
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 8px 16px;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.header-tools-link:hover {
+    background: rgba(16, 185, 129, 0.2);
+    transform: translateY(-1px);
+}
+
 /* Hamburger */
 .hamburger {
     background: none;
@@ -247,6 +265,7 @@ main.container {
     font-weight: 700;
     margin-bottom: 10px;
     background: linear-gradient(135deg, var(--text-main) 0%, var(--text-muted) 100%);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -616,4 +635,323 @@ input[type="number"]::placeholder {
     /* Blue for Pivot */
     font-weight: 700;
     background: rgba(59, 130, 246, 0.05);
+}
+
+/* News Ticker Bar */
+.news-ticker {
+    position: fixed;
+    top: var(--header-height);
+    bottom: auto;
+    /* Remove bottom positioning */
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background: rgba(15, 23, 42, 0.95);
+    border-bottom: 1px solid var(--primary);
+    /* Move border to bottom */
+    border-top: none;
+    display: flex;
+    align-items: center;
+    z-index: 99;
+    /* Below header (100) but above content */
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.ticker-wrapper {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.ticker-content {
+    display: inline-block;
+    white-space: nowrap;
+    animation: ticker-scroll 160s linear infinite;
+    /* Changed speed to 160s (very slow) */
+    padding-left: 100%;
+    /* Start from off-screen right */
+}
+
+.ticker-item {
+    display: inline-block;
+    color: var(--text-main);
+    font-size: 0.9rem;
+    font-weight: 400;
+    padding: 0 2rem;
+    position: relative;
+}
+
+.ticker-item a {
+    color: var(--text-main);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.ticker-item a:hover {
+    color: var(--primary);
+}
+
+.ticker-item:after {
+    content: "•";
+    position: absolute;
+    right: 0;
+    color: var(--primary);
+    font-size: 1.2rem;
+    line-height: 0.9rem;
+}
+
+.ticker-item:last-child:after {
+    content: "";
+}
+
+.ticker-content:hover {
+    animation-play-state: paused;
+}
+
+@keyframes ticker-scroll {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+
+    100% {
+        transform: translate3d(-100%, 0, 0);
+    }
+}
+
+/* Adjust main content padding to account for fixed ticker below header */
+main {
+    padding-top: 60px !important;
+    /* Ensure enough space below ticker */
+    margin-top: 40px;
+    /* Push main down by ticker height */
+}
+
+/* Remove bottom padding adjustment since ticker is now at top */
+body {
+    padding-bottom: 0;
+}
+
+/* --- Home Page Dashboard Styles --- */
+
+.home-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: stretch;
+    /* Full width */
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 20px;
+    padding-left: 10px;
+    border-left: 4px solid var(--primary);
+}
+
+/* Dashboard Grid (Indices) */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    /* Responsive columns */
+    gap: 15px;
+}
+
+.dash-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.dash-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.card-value {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.card-value.up {
+    color: var(--primary);
+}
+
+.card-value.down {
+    color: #ef4444;
+}
+
+.card-value .change {
+    font-size: 0.8rem;
+    font-weight: 400;
+    margin-left: 5px;
+}
+
+.card-status {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* Divider */
+.spacer-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+    margin: 10px 0;
+}
+
+/* Menu Grid (Tools) */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 Columns fixed */
+    gap: 15px;
+}
+
+.menu-item-card {
+    background: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.menu-item-card i {
+    font-size: 2rem;
+    color: var(--primary);
+    transition: transform 0.2s;
+}
+
+.menu-item-card span {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.menu-item-card:hover {
+    background: rgba(16, 185, 129, 0.05);
+    border-color: var(--primary);
+}
+
+.menu-item-card:hover i {
+    transform: scale(1.1);
+}
+
+.menu-item-card:hover span {
+    color: var(--text-main);
+}
+
+.menu-item-card.coming-soon {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.menu-item-card.coming-soon i {
+    color: var(--text-muted);
+}
+
+/* Hide Hamburger on Home Page (Mobile) specifically */
+/* Since we can't target "page" via CSS easily without body class, let's assume body class or just relying on structure.
+   Actually, the user said "not required hamburger menu" for the home page.
+   In index.html I removed the hamburger button.
+   But we need to ensure the .main-nav defaults don't mess up.
+*/
+
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr 1fr;
+        /* 2 cols on mobile for dashboard cards */
+    }
+}
+
+/* --- News Page Styling --- */
+.news-feed-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding-bottom: 80px;
+    /* Space for mobile nav/scrolling */
+}
+
+.news-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-decoration: none !important;
+    display: block;
+    color: var(--text-main);
+}
+
+.news-card * {
+    text-decoration: none !important;
+}
+
+.news-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.news-card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.news-card-summary {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    /* Standard property */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.news-card-meta {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.8;
+}
+
+.news-source-tag {
+    font-weight: 600;
+    color: var(--primary);
 }

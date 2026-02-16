@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ROI Calculator | TradingBrains</title>
+    <title>Market News | TradingBrains</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700&display=swap"
@@ -45,44 +45,19 @@
     </header>
 
     <main class="container">
-        <div class="page-title">
-            <h1>ROI Calculator</h1>
-            <p>Check your Returns on Investment and Profit/Loss.</p>
-        </div>
+        <section class="tool-section">
+            <h1 class="section-title">Market News</h1>
 
-        <div class="calculator-card">
-            <div class="input-group">
-                <label class="input-label">Investment Amount</label>
-                <input type="number" id="roi-invested" placeholder="0.00">
+            <div id="news-feed-container" class="news-feed-list">
+                <!-- News Cards will be populated here -->
+                <div class="loading-spinner" style="text-align: center; padding: 40px; color: var(--text-muted);">
+                    Fetching latest updates...
+                </div>
             </div>
-
-            <div class="input-group">
-                <label class="input-label">Current / Final Value</label>
-                <input type="number" id="roi-current" placeholder="0.00">
-            </div>
-
-            <button class="btn-primary" id="btn-calculate-roi" style="display:none;">Calculate ROI</button>
-
-            <div class="result-box" id="result-box">
-                <!-- Javascript will populate this -->
-            </div>
-        </div>
+        </section>
     </main>
 
-    <footer class="main-footer">
-        For <strong>Trading Brains Group</strong> by KK
-    </footer>
-
-    <div id="news-ticker-bar" class="news-ticker">
-        <div class="ticker-wrapper">
-            <div class="ticker-content" id="ticker-content">
-                <!-- News items will be populated here -->
-                <span class="ticker-item">Loading market news...</span>
-            </div>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
+    <script src="script.js?v=26"></script>
 </body>
 
 </html>

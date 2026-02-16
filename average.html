@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Average | TradingBrains</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="main-header">
+        <div class="container">
+            <!-- Moved Hamburger to top for Left Alignment -->
+
+
+            <a href="index.html" class="logo">
+                <!-- Stock Market Icon SVG (Trend Up) -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#10b981" viewBox="0 0 256 256">
+                    <path
+                        d="M244,56v64a4,4,0,0,1-8,0V65.66l-77.17,77.17a4,4,0,0,1-5.66,0L108,97.66,34.83,170.83a4,4,0,0,1-5.66-5.66l76-76a4,4,0,0,1,5.66,0L156,134.34,228.34,62H180a4,4,0,0,1,0-8h60A4,4,0,0,1,244,56Z">
+                    </path>
+                </svg>
+                Trading<span>Brains</span>
+            </a>
+
+            <!-- Tools Link (Right Side) -->
+            <a href="index.html#tools-section" class="header-tools-link">Tools</a>
+
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <li><a href="average.html" class="active">Stock Avg</a></li>
+                    <li><a href="pivot.html">Pivot</a></li>
+                    <li><a href="invest.html">Invest</a></li>
+                    <li><a href="profit.html">Profit</a></li>
+                    <li><a href="emi.html">EMI</a></li>
+                    <li><a href="percentage.html">Percentage</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+
+
+    <main class="container">
+        <div class="page-title">
+            <h1>Stock Average Calculator</h1>
+            <p>Calculate your average price after buying more.</p>
+        </div>
+
+        <div class="calculator-card">
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="average">Stock Average</button>
+                <button class="tab-btn" data-tab="target">Target Average</button>
+            </div>
+
+            <!-- Tab Content: Stock Average -->
+            <div id="tab-average" class="tab-content active">
+                <div id="entries-container">
+                    <!-- Initial Row 1 -->
+                    <div class="input-group stock-row">
+                        <label>Entry 1</label>
+                        <div class="two-col">
+                            <input type="number" class="qty-input" placeholder="Qty">
+                            <input type="number" class="price-input" placeholder="Price">
+                        </div>
+                        <div class="row-invested-display">Invested: 0.00</div>
+                    </div>
+                    <!-- Initial Row 2 -->
+                    <div class="input-group stock-row">
+                        <label>Entry 2</label>
+                        <div class="two-col">
+                            <input type="number" class="qty-input" placeholder="Qty">
+                            <input type="number" class="price-input" placeholder="Price">
+                        </div>
+                        <div class="row-invested-display">Invested: 0.00</div>
+                    </div>
+                </div>
+
+                <button class="btn-outline" id="btn-add-row" style="margin-bottom: 20px;">+ Add Entry</button>
+
+                <div class="result-box" id="result-box">
+                    <!-- Javascript will populate this -->
+                </div>
+            </div>
+
+            <!-- Tab Content: Target Average -->
+            <div id="tab-target" class="tab-content">
+                <div class="input-group">
+                    <div class="two-col">
+                        <div>
+                            <label class="input-label">Current Qty</label>
+                            <input type="number" id="target-qty" placeholder="Shares">
+                        </div>
+                        <div>
+                            <label class="input-label">Current Avg</label>
+                            <input type="number" id="target-avg" placeholder="Price">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <div class="two-col">
+                        <div>
+                            <label class="input-label">New Buy Price</label>
+                            <input type="number" id="target-new-price" placeholder="CMP">
+                        </div>
+                        <div>
+                            <label class="input-label">Target Avg</label>
+                            <input type="number" id="target-desired" placeholder="Target">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-box" id="result-box-target">
+                    <!-- Results for Target Calc -->
+                </div>
+            </div>
+        </div>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        For <strong>Trading Brains Group</strong> by KK
+    </footer>
+
+    <div id="news-ticker-bar" class="news-ticker">
+        <div class="ticker-wrapper">
+            <div class="ticker-content" id="ticker-content">
+                <!-- News items will be populated here -->
+                <span class="ticker-item">Loading market news...</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

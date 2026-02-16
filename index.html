@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stock Average | TradingBrains</title>
+    <title>Dashboard | TradingBrains</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700&display=swap"
@@ -16,16 +16,9 @@
 <body>
 
     <header class="main-header">
-        <div class="container">
-            <!-- Moved Hamburger to top for Left Alignment -->
-            <button class="hamburger" aria-label="Menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-
+        <div class="container" style="justify-content: center;">
+            <!-- No Hamburger on Home Page as per request -->
             <a href="index.html" class="logo">
-                <!-- Stock Market Icon SVG (Trend Up) -->
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#10b981" viewBox="0 0 256 256">
                     <path
                         d="M244,56v64a4,4,0,0,1-8,0V65.66l-77.17,77.17a4,4,0,0,1-5.66,0L108,97.66,34.83,170.83a4,4,0,0,1-5.66-5.66l76-76a4,4,0,0,1,5.66,0L156,134.34,228.34,62H180a4,4,0,0,1,0-8h60A4,4,0,0,1,244,56Z">
@@ -34,9 +27,11 @@
                 Trading<span>Brains</span>
             </a>
 
-            <nav class="main-nav">
+            <!-- Desktop Nav still visible -->
+            <nav class="main-nav" style="display: none;">
                 <ul class="nav-links">
-                    <li><a href="index.html" class="active">Stock Avg</a></li>
+
+                    <li><a href="average.html">Stock Avg</a></li>
                     <li><a href="pivot.html">Pivot</a></li>
                     <li><a href="invest.html">Invest</a></li>
                     <li><a href="profit.html">Profit</a></li>
@@ -47,58 +42,58 @@
         </div>
     </header>
 
-    <div class="mobile-menu-overlay"></div>
-    <div class="mobile-menu">
-        <button class="close-menu" aria-label="Close">&times;</button>
-        <div class="mobile-nav-links">
-            <a href="index.html" class="active"><i class="ph ph-trend-up"></i> Stock Average</a>
-            <a href="pivot.html"><i class="ph ph-crosshair"></i> Pivot Calculator</a>
-            <a href="invest.html"><i class="ph ph-plant"></i> Invest (SIP/Lump/SWP)</a>
-            <a href="profit.html"><i class="ph ph-chart-line-up"></i> Profit (ROI/CAGR)</a>
-            <a href="emi.html"><i class="ph ph-bank"></i> EMI Calculator</a>
-            <a href="percentage.html"><i class="ph ph-percent"></i> Percentage</a>
+    <!-- News Ticker -->
+    <div id="news-ticker-bar" class="news-ticker">
+        <div class="ticker-wrapper">
+            <div class="ticker-content" id="ticker-content">
+                <span class="ticker-item">Loading market news...</span>
+            </div>
         </div>
     </div>
 
-    <main class="container">
-        <div class="calculator-card">
-            <div class="page-title">
-                <h1>Stock Average</h1>
-                <p>Calculate your average price after multiple buys</p>
+    <main class="container home-container">
+
+        <div class="spacer-divider"></div>
+
+        <!-- 3x3 Grid Menu -->
+        <section class="menu-section" id="tools-section">
+
+            <div class="menu-grid">
+                <a href="average.html" class="menu-item-card">
+                    <i class="ph ph-trend-up"></i>
+                    <span>Stock Avg</span>
+                </a>
+                <a href="pivot.html" class="menu-item-card">
+                    <i class="ph ph-crosshair"></i>
+                    <span>Pivot</span>
+                </a>
+                <a href="invest.html" class="menu-item-card">
+                    <i class="ph ph-plant"></i>
+                    <span>Invest</span>
+                </a>
+                <a href="profit.html" class="menu-item-card">
+                    <i class="ph ph-chart-line-up"></i>
+                    <span>Profit</span>
+                </a>
+                <a href="emi.html" class="menu-item-card">
+                    <i class="ph ph-bank"></i>
+                    <span>EMI</span>
+                </a>
+                <a href="percentage.html" class="menu-item-card">
+                    <i class="ph ph-percent"></i>
+                    <span>Percentage</span>
+                </a>
+                <a href="roi.html" class="menu-item-card">
+                    <i class="ph ph-currency-inr"></i>
+                    <span>ROI</span>
+                </a>
+                <a href="news.html" class="menu-item-card">
+                    <i class="ph ph-newspaper"></i>
+                    <span>News</span>
+                </a>
             </div>
+        </section>
 
-            <div id="entries-container">
-                <!-- Initial Row 1 -->
-                <div class="input-group stock-row">
-                    <label>Entry 1</label>
-                    <div class="two-col">
-                        <input type="number" class="qty-input" placeholder="Qty">
-                        <input type="number" class="price-input" placeholder="Price">
-                    </div>
-                    <!-- Invested Amount Display -->
-                    <div class="row-invested-display">Invested: 0.00</div>
-                </div>
-                <!-- Initial Row 2 -->
-                <div class="input-group stock-row">
-                    <label>Entry 2</label>
-                    <div class="two-col">
-                        <input type="number" class="qty-input" placeholder="Qty">
-                        <input type="number" class="price-input" placeholder="Price">
-                    </div>
-                    <!-- Invested Amount Display -->
-                    <div class="row-invested-display">Invested: 0.00</div>
-                </div>
-            </div>
-
-            <button class="btn-outline" id="btn-add-row" style="margin-bottom: 20px;">+ Add Entry</button>
-
-            <!-- Button hidden for auto-calculation mode, kept for JS ref -->
-            <button class="btn-primary" id="btn-calculate" style="display:none;">Calculate Average</button>
-
-            <div class="result-box" id="result-box">
-                <!-- Javascript will populate this -->
-            </div>
-        </div>
     </main>
 
     <footer class="main-footer">
